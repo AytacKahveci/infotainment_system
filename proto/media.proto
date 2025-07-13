@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package media;
+
+service MediaService {
+  // Process MediaService commands
+  rpc ControlMedia(MediaControlRequest) returns (MediaControlResponse);
+
+  // Return playlist
+  rpc GetPlaylist(GetPlayListRequest) returns (GetPlaylistResponse);
+
+  // Stream current playback status
+  rpc StreamPlaybackStatus(google.protobuf.Empty) returns (stream MediaPlaybackStatus);
+}
+
+message MediaPlaybackStatus {
+  enum PlaybackState {
+    STOPPED = 0;
+    PLAYING = 1;
+    PAUSED = 2;
+  }
+
+  PlaybackState state = 1;
+  string current_track_title = 2;
+  string current_artist_name = 3;
+  uint32 track_duration = 4;
+  uint32 elapsed_time = 5;
+  uint32 volume_level = 6;
+}
+
+message MediaControlRequest {
+  oneof command {
+    uint64 play_track_id = 1;
+    bool pause = 2;
+    bool stop = 3;
+    uint32 set_volume = 4;
+    uint32 skip_next = 5;
+    uint32 skip_prev = 6;
+  }
+}
+
+message MediaControlResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message TrackInfo {
+  uint64 id = 1;
+  string title = 2;
+  string artist = 3;
+  uint32 duration = 4;
+}
+
+message GetPlayListRequest {
+
+}
+
+message GetPlaylistResponse {
+  repeated TrackInfo tracks = 1;
+}
+
+import "google/protobuf/empty.proto";
