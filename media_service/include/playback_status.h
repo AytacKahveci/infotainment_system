@@ -30,6 +30,7 @@ namespace media_service
     std::shared_ptr<Song> mpSong{nullptr};
     std::uint32_t mElapsedTime{0};
     std::uint8_t mVolumeLevel{0};
+    std::int64_t mCurrentSongIndex{-1};
   };
 } // namespace media_service
 #endif // MEDIA_SERVICE_INCLUDE_PLAYBACK_STATUS_H_

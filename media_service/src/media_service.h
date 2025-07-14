@@ -47,8 +47,8 @@ namespace media_service
     std::thread mPlaybackUpdaterThread;
     std::mutex mPlaybackMutex;
     std::condition_variable mCV;
-    bool mStatusChanged;
-    bool mStopPlaybackUpdater;
+    bool mStatusChanged{false};
+    bool mStopPlaybackUpdater{false};
 
     std::set<ServerWriter<MediaPlaybackStatus>*> mActiveWriters;
     std::mutex mWriterMutex;
