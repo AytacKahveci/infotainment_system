@@ -8,6 +8,7 @@ include("${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
 
 find_package(gRPC CONFIG REQUIRED)
 find_package(protobuf CONFIG REQUIRED)
+find_package(GTest REQUIRED)
 
 get_filename_component(PROTO_DIR ${CMAKE_SOURCE_DIR}/../proto ABSOLUTE)
 set(PROTO_FILE "${PROTO_DIR}/media.proto")
@@ -59,6 +60,19 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE
     grpc::grpc
     protobuf::protobuf
+)
+
+add_executable(media_service_it
+  test/media_service_it.cpp
+  src/media_service.cpp
+  ${MEDIA_GENERATED_SRCS}
+)
+
+target_link_libraries(media_service_it
+  PRIVATE
+    grpc::grpc
+    protobuf::protobuf
+    ${GTest_LIBRARIES}
 )
 
 add_custom_target(generate_media_proto
