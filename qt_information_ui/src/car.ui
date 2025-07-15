@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowTitle">
+   <string>Car UI</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <!-- Home Page -->
+      <widget class="QWidget" name="homePage">
+       <layout class="QHBoxLayout" name="horizontalLayout_home">
+        <item>
+         <widget class="QPushButton" name="btn_media">
+          <property name="text">
+           <string>Media</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_navigation">
+          <property name="text">
+           <string>Navigation</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Media Page -->
+      <widget class="QWidget" name="mediaPage">
+       <layout class="QVBoxLayout" name="verticalLayout_media">
+        <item>
+         <widget class="QLabel" name="label_playlist">
+          <property name="text">
+           <string>Playlist:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="list_playlist"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_play">
+          <property name="text">
+           <string>Play Selected Song</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_now_playing">
+          <property name="text">
+           <string>Now Playing: ---</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Navigation Page -->
+      <widget class="QWidget" name="navigationPage">
+       <layout class="QVBoxLayout" name="verticalLayout_navigation">
+        <item>
+         <widget class="QLabel" name="label_nav_placeholder">
+          <property name="text">
+           <string>Navigation Screen (Map Placeholder)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="9"/>
+ <customwidgets/>
+</ui>
