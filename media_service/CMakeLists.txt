@@ -24,12 +24,14 @@ add_custom_command(
   COMMENT "Generating Protobuf C++ code for ${PROTO_FILE}"
 )
 
+find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin REQUIRED)
+
 add_custom_command(
   OUTPUT "${PROTO_GENERATED_DIR}/media.grpc.pb.cc" "${PROTO_GENERATED_DIR}/media.grpc.pb.h"
   COMMAND "protoc"
           "--proto_path=${PROTO_DIR}"
           "--grpc_out=${PROTO_GENERATED_DIR}"
-          "--plugin=protoc-gen-grpc=/home/aytac/.conan2/p/b/grpc11cd1577f43ea/p/bin/grpc_cpp_plugin"
+          "--plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}"
           "${PROTO_FILE}"
   DEPENDS "${PROTO_FILE}"
   COMMENT "Generating gRPC C++ code for ${PROTO_FILE}"
