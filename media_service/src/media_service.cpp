@@ -40,7 +40,6 @@ namespace media_service
                         const MediaControlRequest *request,
                         MediaControlResponse *response)
   {
-    std::cout << "ControlMedia is called" << std::endl;
     std::lock_guard<std::mutex> lock(mPlaybackMutex);
     response->set_success(true);
     response->set_message("Command executed successfully");
@@ -91,7 +90,6 @@ namespace media_service
       if (newVolume <= 100)
       {
         mCurrentStatus.mVolumeLevel = newVolume;
-        std::cout << "Volume is set to: " << newVolume << std::endl;
       }
       else
       {
@@ -114,6 +112,7 @@ namespace media_service
       }
 
       mCurrentStatus.mpSong = std::make_shared<Song>(mSongs[mCurrentStatus.mCurrentSongIndex]); 
+      mCurrentStatus.mElapsedTime = 0;
     }
     else if (request->has_skip_prev())
     {
@@ -130,6 +129,7 @@ namespace media_service
       }
 
       mCurrentStatus.mpSong = std::make_shared<Song>(mSongs[mCurrentStatus.mCurrentSongIndex]);
+      mCurrentStatus.mElapsedTime = 0;
     }
     else
     {
@@ -176,6 +176,7 @@ namespace media_service
         status.set_current_artist_name(mCurrentStatus.mpSong->GetArtistName());
         status.set_track_duration(mCurrentStatus.mpSong->GetDuration());
         status.set_elapsed_time(mCurrentStatus.mElapsedTime);
+        status.set_track_id(mCurrentStatus.mpSong->GetId());
       }
       else
       {
@@ -183,6 +184,7 @@ namespace media_service
         status.set_current_artist_name("");
         status.set_track_duration(0);
         status.set_elapsed_time(0);
+        status.set_track_id(0);
       }
 
       if (!writer->Write(status))
@@ -190,7 +192,6 @@ namespace media_service
         std::cerr << "Failed to write to client, connection likely lost" << std::endl;
         break;
       }
-      std::cout << "Client is updated" << std::endl;
     }
 
     {
@@ -198,6 +199,21 @@ namespace media_service
       mActiveWriters.erase(writer);
       std::cout << "Client disconnected from StreamPlaybackStatus. Total: " << mActiveWriters.size() << std::endl;
     } 
+    return Status::OK;
+  }
+
+  Status MediaServiceImpl::GetPlayList(ServerContext *context,
+                                       const GetPlayListRequest *request,
+                                       GetPlayListResponse *response)
+  {
+    for (const auto& song : mSongs)
+    {
+      auto* pTrack = response->add_tracks();
+      pTrack->set_id(song.GetId());
+      pTrack->set_title(song.GetTrackTitle());
+      pTrack->set_artist(song.GetArtistName());
+      pTrack->set_duration(song.GetDuration());
+    }
     return Status::OK;
   }
 

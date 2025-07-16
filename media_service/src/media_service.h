@@ -21,6 +21,8 @@ using grpc::ServerContext;
 using grpc::ServerWriter;
 using grpc::Status;
 
+using media::GetPlayListRequest;
+using media::GetPlayListResponse;
 using media::MediaControlRequest;
 using media::MediaControlResponse;
 using media::MediaPlaybackStatus;
@@ -60,6 +62,10 @@ namespace media_service
     Status StreamPlaybackStatus(ServerContext *context,
                                 const Empty *request,
                                 ServerWriter<MediaPlaybackStatus> *writer) override;
+
+    Status GetPlayList(ServerContext *context,
+                       const GetPlayListRequest *request,
+                       GetPlayListResponse *response) override;
 
     void UpdatePlaybackStatus();
   };

@@ -7,7 +7,7 @@ service MediaService {
   rpc ControlMedia(MediaControlRequest) returns (MediaControlResponse);
 
   // Return playlist
-  rpc GetPlaylist(GetPlayListRequest) returns (GetPlaylistResponse);
+  rpc GetPlayList(GetPlayListRequest) returns (GetPlayListResponse);
 
   // Stream current playback status
   rpc StreamPlaybackStatus(google.protobuf.Empty) returns (stream MediaPlaybackStatus);
@@ -26,6 +26,7 @@ message MediaPlaybackStatus {
   uint32 track_duration = 4;
   uint32 elapsed_time = 5;
   uint32 volume_level = 6;
+  uint64 track_id = 7;
 }
 
 message MediaControlRequest {
@@ -55,7 +56,7 @@ message GetPlayListRequest {
 
 }
 
-message GetPlaylistResponse {
+message GetPlayListResponse {
   repeated TrackInfo tracks = 1;
 }
 
