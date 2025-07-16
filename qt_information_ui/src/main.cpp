@@ -1,8 +1,13 @@
 #include <iostream>
-#include "ui_car.h"
+#include <QApplication>
+#include "mainwindow.h"
 
-int main()
+using namespace qt_information_ui;
+
+int main(int argc, char** argv)
 {
-
-  return 0;
+  QApplication app(argc, argv);
+  MainWindow w;
+  w.show();
+  return app.exec();
 }

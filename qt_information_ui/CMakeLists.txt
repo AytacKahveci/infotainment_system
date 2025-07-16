@@ -58,6 +58,7 @@ include_directories(${CMAKE_SOURCE_DIR}/..
 
 add_executable(${PROJECT_NAME}
   src/main.cpp
+  src/mainwindow.cpp
   src/media_client.cpp
   src/car.ui
   ${MEDIA_GENERATED_SRCS}

@@ -5,6 +5,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <functional>
 
 #include <grpc++/grpc++.h>
 #include "media.grpc.pb.h"
@@ -21,6 +22,12 @@ namespace qt_information_ui
     virtual ~MediaClient();
 
     bool PlaySong(const Song& song) override;
+    bool PauseSong(bool pause=true) override;
+    bool StopSong() override;
+    bool PlayNext() override;
+    bool PlayPrevious() override;
+    bool SetVolume(uint32_t volume) override;
+
     std::vector<Song> GetSongs() override;
     const PlaybackStatus& GetPlaybackStatus() override;
 
@@ -34,7 +41,7 @@ namespace qt_information_ui
     grpc::Status PlaySongRequest(const Song& song,
                                  media::MediaControlResponse* response);
     
-    grpc::Status GetPlaylistRequest(media::GetPlaylistResponse* response);
+    grpc::Status GetPlaylistRequest(media::GetPlayListResponse* response);
 
     void ReceiverThread();
     
