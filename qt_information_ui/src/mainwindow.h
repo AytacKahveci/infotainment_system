@@ -19,7 +19,7 @@ namespace qt_information_ui
     Q_OBJECT
 
   public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(std::shared_ptr<MediaClientInterface> client, QWidget *parent = nullptr);
     virtual ~MainWindow() = default;
 
   private slots:
@@ -33,7 +33,7 @@ namespace qt_information_ui
 
   private:
     std::unique_ptr<Ui::MainWindow> mpUi;
-    std::unique_ptr<MediaClientInterface> mpMediaClient;
+    std::shared_ptr<MediaClientInterface> mpMediaClient;
     std::vector<Song> mSongs{};
     std::string mSelectedSongTitle{""};
     std::string mPrevSelectedSongTitle{""};

@@ -5,8 +5,9 @@
 
 namespace qt_information_ui
 {
-  MainWindow::MainWindow(QWidget *parent)
-      : QMainWindow(parent),
+  MainWindow::MainWindow(std::shared_ptr<MediaClientInterface> client, QWidget *parent)
+      : mpMediaClient(client),
+        QMainWindow(parent),
         mpUi(std::make_unique<Ui::MainWindow>())
   {
     mpUi->setupUi(this);
@@ -27,9 +28,6 @@ namespace qt_information_ui
 
   void MainWindow::InitializeGrpcClients()
   {
-    mpMediaClient = std::make_unique<MediaClient>(
-        grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-
     if (!mpMediaClient)
     {
       QMessageBox::critical(this, "gRPC Error", "Failed to create Media gRPC client");
@@ -107,6 +105,7 @@ namespace qt_information_ui
       {
         std::cout << "Play successfull" << std::endl;
         mPrevSelectedSongTitle = mSelectedSongTitle;
+        mpUi->btn_play_pause->setText("Pause");
       }
       break;
     }
@@ -147,13 +146,16 @@ namespace qt_information_ui
     {
     case PlaybackState::PAUSED:
       mpUi->label_now_playing_title->setText("Paused:");
+      mpUi->btn_play_pause->setText("Play");
       break;
     case PlaybackState::STOPPED:
       mpUi->label_now_playing_title->setText("Stopped:");
+      mpUi->btn_play_pause->setText("Play");
       break;
     case PlaybackState::PLAYING:
     default:
       mpUi->label_now_playing_title->setText("Now Playing:");
+      mpUi->btn_play_pause->setText("Pause");
       break;
     }
 

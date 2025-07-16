@@ -23,12 +23,11 @@ namespace qt_information_ui
     virtual const PlaybackStatus& GetPlaybackStatus() = 0;
     
     using HandlerT = std::function<void(const PlaybackStatus&)>;
-    void SetHandler(const HandlerT& handler)
+    virtual void SetHandler(const HandlerT& handler)
     {
       mHandler = handler;
     }
   
-  protected:
     HandlerT mHandler;
   };
 } // namespace qt_information_ui

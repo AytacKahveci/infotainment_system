@@ -19,3 +19,4 @@ CMakeToolchain
 grpc/*:shared=True
 protobuf/*:shared=True
 qt/*:shared=True
+gtest/*:build_gmock=True

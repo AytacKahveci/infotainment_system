@@ -12,7 +12,7 @@ include("${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
 find_package(gRPC CONFIG REQUIRED)
 find_package(protobuf CONFIG REQUIRED)
 find_package(GTest REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Test)
 
 get_filename_component(PROTO_DIR ${CMAKE_SOURCE_DIR}/../proto ABSOLUTE)
 set(PROTO_FILE "${PROTO_DIR}/media.proto")
@@ -69,6 +69,23 @@ target_link_libraries(${PROJECT_NAME}
     grpc::grpc
     protobuf::protobuf
     Qt6::Widgets
+)
+
+add_executable(mainwindow_it
+  test/mainwindow_it.cpp
+  src/mainwindow.cpp
+  src/media_client.cpp
+  src/car.ui
+  ${MEDIA_GENERATED_SRCS}
+)
+
+target_link_libraries(mainwindow_it
+  PRIVATE
+    grpc::grpc
+    protobuf::protobuf
+    ${GTest_LIBRARIES}
+    Qt6::Widgets
+    Qt6::Test
 )
 
 add_custom_target(generate_media_proto
