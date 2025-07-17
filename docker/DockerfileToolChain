@@ -1,0 +1,22 @@
+FROM ubuntu:22.04 AS builder
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    python3 \
+    python3-pip \
+    cmake \
+    git \
+    build-essential \
+    pkg-config \
+    libssl-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install conan
+
+WORKDIR /app/toolchain
+
+COPY docker/conanfile.txt .
+
+RUN conan profile detect
+RUN conan install . --output-folder=build --build=missing -s build_type=Release -c tools.system.package_manager:mode=install
